@@ -66,6 +66,7 @@ def pdf_to_text(file_content):
 def pdf_ocr(file_content, progress_bar):
     """对扫描的PDF文件进行OCR处理，并提取目录"""
     try:
+        st.info("正在打开PDF文件...")
         doc = fitz.open(stream=file_content, filetype="pdf")
         
         toc = doc.get_toc()
@@ -78,15 +79,26 @@ def pdf_ocr(file_content, progress_bar):
         
         full_text = ""
         total_pages = len(doc)
+        st.info(f"PDF共有 {total_pages} 页。开始逐页处理...")
+
         for i, page in enumerate(doc):
-            pix = page.get_pixmap(dpi=300)
+            st.info(f"正在处理第 {i+1}/{total_pages} 页...")
+            
+            st.info(f"  - 步骤1: 正在将页面转换为图像 (dpi=250)...")
+            pix = page.get_pixmap(dpi=250) 
             img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+            st.info(f"  - 步骤1完成: 图像尺寸 {img.size}")
+            
+            st.info(f"  - 步骤2: 正在调用 Tesseract OCR 引擎...")
             page_text = pytesseract.image_to_string(img, lang='chi_sim+eng')
+            st.info(f"  - 步骤2完成: 识别出 {len(page_text)} 个字符。")
+            
             full_text += f"\n--- Page {i+1} ---\n" + page_text
             progress_bar.progress((i + 1) / total_pages)
             
         return full_text, toc_text
     except Exception as e:
+        st.error(f"在OCR过程中发生严重错误: {e}")
         return f"OCR处理PDF时出错: {e}", ""
 
 
