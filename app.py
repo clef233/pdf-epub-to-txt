@@ -104,7 +104,7 @@ def pdf_ocr(file_content, progress_bar):
 
 # --- Streamlit App ---
 
-st.set_page_config(page_title="文件转换器 Pro", layout="wide")
+st.set_page_config(page_title="文件转换器 v1", layout="wide")
 
 st.title("📚 文件转换器 Pro")
 st.markdown("一个多功能文件转换工具，支持 EPUB、PDF 转 TXT")
