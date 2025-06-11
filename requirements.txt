@@ -1,0 +1,6 @@
+streamlit
+ebooklib
+beautifulsoup4
+PyMuPDF
+pytesseract
+Pillow
