@@ -138,6 +138,9 @@ dmypy.json
 *.swo
 *~
 
+# Claude AI specific files
+.claude/
+
 # OS specific files
 .DS_Store
 .DS_Store?
